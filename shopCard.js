@@ -71,11 +71,11 @@ export default class ShopCard extends HTMLElement {
             }
 
         `
-
         this.shadowRoot.append(cardContainer, compnentCSS);
     };
 
     createItem(data) {
+        //CREATE_ITEMS--------------------------------------------------->
         const item = document.createElement("div");
         item.classList.add("foot-item");
 
@@ -90,7 +90,8 @@ export default class ShopCard extends HTMLElement {
         itemAmount.textContent = `x${data.length}`;
 
         const buttonContainer = document.createElement("div");
-
+        //---------------------------------------------------------------->
+        //CREATE_BUTTONS-------------------------------------------------->
         const addButton = document.createElement("button");
         addButton.textContent = "+";
         addButton.addEventListener("click", () => {
@@ -107,12 +108,57 @@ export default class ShopCard extends HTMLElement {
             this.updateItemContainer();
             this.updateTotalPrice();
         });
-
         buttonContainer.append(addButton, removeButton);
-
+        //--------------------------------------------------------------->
+        //ADD_TO_ITEM_CONTAINER------------------------------------------>
         item.append(itemName, itemPrice, itemAmount, buttonContainer);
 
         return item;
+    };
+    //------------------------------------------------------------------->
+    //HANDLER_SECTION---------------------------------------------------->
+    addItemToCardPool(data) {
+        if (data.itemType == "pizza") {
+            CardPools.pizzaPool[data.itemName].push(data);
+        } else if (data.itemType == "schnitzel") {
+            CardPools.schnitzelPool[data.itemName].push(data);
+        };
+    };
+    
+    incraseItemAmount(data) {
+        if (data[0].itemType == "pizza") {
+            CardPools.pizzaPool[data[0].itemName].push(data[0]);
+        } else if (data[0].itemType == "schnitzel") {
+            CardPools.schnitzelPool[data[0].itemName].push(data[0]);
+        };
+    };
+    
+    decraseItemAmount(data) {
+        if (data[0].itemType == "pizza") {
+            CardPools.pizzaPool[data[0].itemName].pop();
+        } else if (data[0].itemType == "schnitzel") {
+            CardPools.schnitzelPool[data[0].itemName].pop();
+        };
+    };
+    
+    removeItemFromCardPool(data) {
+        if (data[0].itemType == "pizza") {
+            CardPools.pizzaPool[data[data.length-1].itemName].pop();
+        } else if (data[0].itemType == "schnitzel") {
+            CardPools.schnitzelPool[data[data.length-1].itemName].pop();
+        };
+    };
+    //--------------------------------------------------------------------->
+    //UPDATE_FUNCTIONS----------------------------------------------------->
+    checkIfCardIsEmpty() {
+        let cardRef = this.shadowRoot.querySelector(".item-container");
+        let cardContainer = document.querySelector("#card");
+        console.log(cardRef.children)
+        if (cardRef.children.length <= 0) {
+            cardContainer.style.display = "none";
+        } else {
+            cardContainer.style.display = "flex";
+        };
     };
 
     updateItemContainer() {
@@ -127,40 +173,8 @@ export default class ShopCard extends HTMLElement {
                 };
             });
         });
+        this.checkIfCardIsEmpty()
     };
-
-    addItemToCardPool(data) {
-        if (data.itemType == "pizza") {
-            CardPools.pizzaPool[data.itemName].push(data);
-        } else if (data.itemType == "schnitzel") {
-            CardPools.schnitzelPool[data.itemName].push(data);
-        };
-    };
-
-    incraseItemAmount(data) {
-        if (data[0].itemType == "pizza") {
-            CardPools.pizzaPool[data[0].itemName].push(data[0]);
-        } else if (data[0].itemType == "schnitzel") {
-            CardPools.schnitzelPool[data[0].itemName].push(data[0]);
-        };
-    };
-
-    decraseItemAmount(data) {
-        if (data[0].itemType == "pizza") {
-            CardPools.pizzaPool[data[0].itemName].pop();
-        } else if (data[0].itemType == "schnitzel") {
-            CardPools.schnitzelPool[data[0].itemName].pop();
-        };
-    };
-
-    removeItemFromCardPool(data) {
-        if (data[0].itemType == "pizza") {
-            CardPools.pizzaPool[data[data.length-1].itemName].pop();
-        } else if (data[0].itemType == "schnitzel") {
-            CardPools.schnitzelPool[data[data.length-1].itemName].pop();
-        };
-    };
-
     updateTotalPrice() {
         let totalPrice = 0;
         Object.values(CardPools).forEach(pool => {

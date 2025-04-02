@@ -1,4 +1,3 @@
-import { Storage, FootData } from "./footData.js";
 import PiepsSignals from "./PiepsSignals.js";
 import { SignalNames } from "./main.js";
 

@@ -8,11 +8,6 @@ customElements.define("pizza-item", Pizza);
 customElements.define("schnitzel-item", Schnitzel);
 customElements.define("shop-card", ShopCard);
 
-const Pools = {
-    PizzaPool: [],
-    SchnitzelPool: [],
-};
-
 const SignalNames = {
     addToCard: "addToCard",
     incraseCounter: "incraseCounter",

@@ -17,11 +17,14 @@ body {
 }
 
 #card {
+    display: none;
     width: 40vw;
     margin-left: 20px;
     margin-right: 20px;
     border: 1px solid black;
     padding: 20px;
+    justify-self: center;
+    justify-content: center;
 }
 
 .meal-container {
